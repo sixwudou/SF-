@@ -1,0 +1,28 @@
+http://oj.hzjingma.com/p/2048?view=classic
+
+#include<bits/stdc++.h>
+using namespace std;
+const int N = 5e5 + 10;
+struct node{
+  int id, val;
+};
+deque<node> dq;
+int n, m, a[N], sum[N], ans = 0;
+int main()
+{
+  scanf("%d%d", &n, &m);
+  dq.push_back(node{0, 0});
+  for(int i = 1; i <= n; i++){
+    scanf("%d", &a[i]);
+    sum[i] = sum[i - 1] + a[i];    //  计算前缀和
+    ans = max(ans, sum[i] - dq.front().val);  //  sum[i] - (区间前缀和最小值) 
+    while(!dq.empty() && sum[i] <= dq.back().val){  //  弹去队尾没用的值 
+      dq.pop_back();
+    }
+    dq.push_back(node{i, sum[i]});  //  入队 
+    
+    if(i - dq.front().id >= m) dq.pop_front();  //  队首已经不能够对后续产生公式 
+  }
+  printf("%d\n", ans);
+  return 0;
+}
