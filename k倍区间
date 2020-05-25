@@ -1,0 +1,25 @@
+http://oj.hzjingma.com/p/7165?view=classic 
+
+eg:5
+   1 2 3 4 5
+   k=2
+   sum[]=1 1 0 0 1
+   
+#include <iostream>
+using namespace std;
+const int N=1e5+10;
+int x, sum[N], cnt[N]; 
+long long ans = 0; 
+int main(){
+  int n,k;
+  scanf("%d%d", &n, &k);
+  cnt[0] = 1;  //  余数为0的个数初始化为1 
+  for(int i = 1; i <= n; i++){
+    scanf("%d", &x);
+    sum[i] = (sum[i - 1] + x) % k;  //  计算前缀和,取余 
+    ans += cnt[sum[i] % k];    //  统计以i结尾的区间有多少个 
+    cnt[sum[i] % k]++;       //  更新计数 
+  }
+  printf("%lld\n", ans); 
+  return 0;
+}
