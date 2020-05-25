@@ -1,0 +1,26 @@
+http://oj.hzjingma.com/p/38?view=classic
+n个数字，m次询问，每次询问输入一个区间[l,r]之间的所有元素之和.满足1<=n,m<=100000.
+总结：直接使用for循环计算区间和。
+在最坏的情况下，计算一次的时间复杂度为O(n)
+总共有m次询问，所以总时间复杂度为O(m*n)
+使用前缀和，可以O(n)时间计算出sum[i]的值，对于每一次循环，只要O(1)就可以计算出答案。
+所以总时间复杂度为O(n+m
+
+#include <bits/stdc++.h>
+using namespace std;
+const int N=1e5+10;
+int a[N];
+long long sum[N];
+int main(){
+    int n,m,l,r;
+    scanf("%d %d",&n,&m);
+    for(int i=1;i<=n;i++){
+        scanf("%d",&a[i]);
+        sum[i]=sum[i-1]+a[i];
+    }
+    for(int i=1;i<=m;i++){
+        scanf("%d %d",&l,&r);
+        printf("%lld\n",sum[r]-sum[l-1]);
+    }
+    return 0;
+}
