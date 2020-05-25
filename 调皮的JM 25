@@ -1,0 +1,34 @@
+http://oj.hzjingma.com/p/7868?view=classic 
+
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 2e5 + 10;
+string S, H;
+int cnt[30], ans = 0;
+int sum[N][30];
+int main()
+{
+  cin >> S >> H;
+  int lens = S.size();
+  int lenh = H.size();
+  for(int i = 1; i <= lens; i++) { //  统计字符串S中每一个字母出现的次数 
+    cnt[S[i - 1] - 'a']++;
+  }
+  for(int i = 1; i <= lenh; i++) { //  计算字符串H中26个英文字母的前缀和 
+    for(int j = 0; j < 26; j++) {
+      sum[i][j] = sum[i - 1][j] + (j == H[i - 1] - 'a'); 
+    }
+  }
+  for(int i = lens; i <= lenh; i++) {  //  枚举以i结尾，长度等于lens的每一个子串 
+    bool flag = true;
+    for(int j = 0; j < 26; j++) {  //  枚举对应26个字母 
+      if(sum[i][j] - sum[i - lens][j] != cnt[j]) { //  如果存在字母出现次数不相同 
+        flag = false;
+        break;
+      }
+    }
+    if(flag == true) ans++;  //  26个字母出现次数均相同 
+  }
+  cout << ans << endl;
+  return 0;
+}
